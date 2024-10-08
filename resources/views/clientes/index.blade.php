@@ -48,11 +48,53 @@
                 <table class="table table-striped text-center" id="datatablesSimple">
                     <thead>
                         <tr>
-                            
+                            <th>Nombre</th>
+                            <th>Dirección</th>
+                            <th>Tipo de Documento</th>
+                            <th>Número de Documento</th>
+                            <th>Tipo de Persona</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        @foreach ($clientes as $cliente)
+                            <tr>
+                                <td>
+                                    {{$cliente->persona->razon_social}}
+                                </td>
+                                <td>
+                                    {{$cliente->persona->direccion}}
+                                </td>
+                                <td>
+                                    {{$cliente->persona->documento->tipo_documento}}
+                                </td>
+                                <td>
+                                    {{$cliente->persona->tipo_persona}}
+                                </td>
+                                <td>
+                                    @if ($cliente->persona->estado == 1)
+                                        <span class="badge rounded-pill text-bg-success d-inline"> ACTIVO </span>
+                                    @else
+                                        <span class="badge rounded-pill text-bg-danger d-inline"> INACTIVO </span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                        <form action="{{ route('clientes.edit', ['cliente' => $cliente]) }}"
+                                            method="get">
+                                            <button type="submit" class="btn btn-warning">Editar</button>
+                                        </form>
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#verModal-{{$cliente->id}}">Ver</button>
+                                        @if ($cliente->persona->estado == 1)
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$cliente->id}}">Eliminar</button>
+                                        @else
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $cliente->id }}">Restaurar</button>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
 
                 </table>

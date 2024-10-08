@@ -130,7 +130,7 @@
                                                 <label for="">Image:</label>
                                                 <div>
                                                     @if ($producto->img_path != null)
-                                                        <img src="{{ Storage::url('public/productos/'.$producto->img_path) }}" class="img-fluid border border-4 rounded img-thumbnail" alt="{{$producto->nombre}}">
+                                                        <img src="{{ Storage::url('app/public/productos/'.$producto->img_path) }}" class="img-fluid border border-4 rounded img-thumbnail" alt="{{$producto->nombre}}">
                                                     @else
                                                         <img src="" alt="{{$producto->nombre}}">
                                                     @endif

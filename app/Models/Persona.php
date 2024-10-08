@@ -15,4 +15,9 @@ class Persona extends Model
     public function proveedore(){
         return $this->hasOne(Proveedore::class);
     }
+    public function cliente(){
+        return $this->hasOne(Cliente::class);
+    }
+    
+    protected $fillable = ['razon_social', 'direccion', 'tipo_persona', 'documento_id', 'numero_documento'];
 }
