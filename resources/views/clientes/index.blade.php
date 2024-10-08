@@ -50,8 +50,7 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Dirección</th>
-                            <th>Tipo de Documento</th>
-                            <th>Número de Documento</th>
+                            <th>Documento</th>
                             <th>Tipo de Persona</th>
                             <th>Estado</th>
                             <th>Acciones</th>
@@ -89,11 +88,37 @@
                                         @if ($cliente->persona->estado == 1)
                                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$cliente->id}}">Eliminar</button>
                                         @else
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $cliente->id }}">Restaurar</button>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$cliente->id}}">Restaurar</button>
                                         @endif
                                     </div>
                                 </td>
                             </tr>
+
+                            <!-- Modal de Confirmacion -->
+                            <div class="modal fade" id="confirmModal-{{$cliente->id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje de confirmación</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        {{$cliente->persona->estado == 1 ? '¿Seguro que deseas eliminar este cliente?' : '¿Seguro que deseas restaurar este cliente?'}}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <form action="{{route('clientes.destroy',['cliente'=>$cliente->persona->id])}}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger">Confirmar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         @endforeach
                     </tbody>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePersonaRequest;
+use App\Http\Requests\UpdateClienteRequest;
 use App\Models\Cliente;
 use App\Models\Documento;
 use App\Models\Persona;
@@ -40,7 +41,7 @@ class ClienteController extends Controller
 
             $persona = Persona::create($request->validated());
             $persona->cliente()->create([
-                'persona_id' => $persona->id
+                'persona_id' => $persona->id,
             ]);
 
             DB::commit();
@@ -63,22 +64,49 @@ class ClienteController extends Controller
      */
     public function edit(Cliente $cliente)
     {
-        //
+        $cliente->load('persona.documento');
+        $documentos = Documento::all();
+        return view('clientes.edit', compact('cliente', 'documentos'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(UpdateClienteRequest $request, Cliente $cliente)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            Persona::where('id', $cliente->persona->id)->update($request->validated());
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+        return redirect()->route('clientes.index')
+            ->with('success', 'Cliente actualizado correctamente!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cliente $cliente)
+    public function destroy($id)
     {
-        //
+        $message = '';
+        $persona = Persona::find($id);
+        if ($persona->estado == 1){
+            Persona::where('id', $persona->id)
+                ->update([
+                    'estado' => 0
+                ]);
+            $message = 'Cliente eliminado';
+        }else{
+            Persona::where('id', $persona->id)
+                ->update([
+                    'estado' => 1
+                ]);
+            $message = 'Cliente restaurado';
+        }
+        return redirect()->route('clientes.index')->with('success', $message);
     }
 }
