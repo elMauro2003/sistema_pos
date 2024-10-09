@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePersonaRequest;
+use App\Http\Requests\UpdateProveedoreRequest;
+use App\Models\Documento;
+use App\Models\Persona;
 use App\Models\Proveedore;
-use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class ProveedoreController extends Controller
 {
@@ -12,7 +17,8 @@ class ProveedoreController extends Controller
      */
     public function index()
     {
-        //
+        $proveedores = Proveedore::with('persona.documento')->get();
+        return view('proveedore.index',compact('proveedores'));
     }
 
     /**
@@ -20,15 +26,28 @@ class ProveedoreController extends Controller
      */
     public function create()
     {
-        //
+        $documentos = Documento::all();
+        return view('proveedore.create',compact('documentos'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePersonaRequest  $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $persona = Persona::create($request->validated());
+            $persona->proveedore()->create([
+                'persona_id' => $persona->id
+            ]);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            
+        }
+
+        return redirect()->route('proveedores.index')->with('success', 'Proveedor registrado correctamente!');
     }
 
     /**
@@ -44,13 +63,15 @@ class ProveedoreController extends Controller
      */
     public function edit(Proveedore $proveedore)
     {
-        //
+        $proveedore->load('persona.documento');
+        $documentos = Documento::all();
+        return view('proveedore.edit',compact('proveedore','documentos'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Proveedore $proveedore)
+    public function update(UpdateProveedoreRequest  $request, Proveedore $proveedore)
     {
         //
     }
@@ -58,8 +79,24 @@ class ProveedoreController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Proveedore $proveedore)
+    public function destroy($id)
     {
-        //
+        $message = '';
+        $persona = Persona::find($id);
+        if ($persona->estado == 1) {
+            Persona::where('id', $persona->id)
+                ->update([
+                    'estado' => 0
+                ]);
+            $message = 'Proveedor eliminado';
+        } else {
+            Persona::where('id', $persona->id)
+                ->update([
+                    'estado' => 1
+                ]);
+            $message = 'Proveedor restaurado';
+        }
+
+        return redirect()->route('proveedores.index')->with('success', $message);
     }
 }

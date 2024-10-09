@@ -61,7 +61,7 @@
                     <div class="sb-nav-link-icon"><i class="fa fa-archive" aria-hidden="true"></i></div>
                     Presentaciones
                 </a>
-                <a class="nav-link" href="{{route('categorias.index')}}">
+                <a class="nav-link" href="{{route('marcas.index')}}">
                     <div class="sb-nav-link-icon"><i class="fa fa-bullhorn" aria-hidden="true"></i></div>
                     Marcas
                 </a>
@@ -72,6 +72,10 @@
                 <a class="nav-link" href="{{route('clientes.index')}}">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                     Clientes
+                </a>
+                <a class="nav-link" href="{{route('proveedores.index')}}">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-user-group"></i></div>
+                    Proveedores
                 </a>
             </div>
         </div>

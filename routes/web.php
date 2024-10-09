@@ -5,6 +5,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\PresentacioneController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ProveedoreController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,7 +30,8 @@ Route::resources([
     'presentaciones' => PresentacioneController::class,
     'marcas' => MarcaController::class,
     'productos' => ProductoController::class,
-    'clientes' => ClienteController::class
+    'clientes' => ClienteController::class,
+    'proveedores' => ProveedoreController::class
 ]);
 
 Route::get('/login', function(){
