@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCaracteristicaRequest;
+use App\Models\Caracteristica;
 use App\Models\Marca;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MarcaController extends Controller
 {
@@ -12,7 +16,8 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        //
+        $marcas = Marca::with('caracteristica')->latest()->get();
+        return view('marca.index',compact('marcas'));
     }
 
     /**
@@ -20,15 +25,26 @@ class MarcaController extends Controller
      */
     public function create()
     {
-        //
+        return view('marca.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCaracteristicaRequest $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $caracteristica = Caracteristica::create($request->validated());
+            $caracteristica->marca()->create([
+                'caracteristica_id' => $caracteristica->id
+            ]);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+
+        return redirect()->route('marcas.index')->with('success', 'Marca registrada correctamente!');
     }
 
     /**
@@ -44,7 +60,7 @@ class MarcaController extends Controller
      */
     public function edit(Marca $marca)
     {
-        //
+        return view('marca.edit',compact('marca'));
     }
 
     /**
@@ -52,14 +68,33 @@ class MarcaController extends Controller
      */
     public function update(Request $request, Marca $marca)
     {
-        //
+        Caracteristica::where('id', $marca->caracteristica->id)
+            ->update($request->validated());
+
+        return redirect()->route('marcas.index')->with('success', 'Marca editada correctamene!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Marca $marca)
+    public function destroy($id)
     {
-        //
+        $message = '';
+        $marca = Marca::find($id);
+        if ($marca->caracteristica->estado == 1) {
+            Caracteristica::where('id', $marca->caracteristica->id)
+                ->update([
+                    'estado' => 0
+                ]);
+            $message = 'Marca eliminada';
+        } else {
+            Caracteristica::where('id', $marca->caracteristica->id)
+                ->update([
+                    'estado' => 1
+                ]);
+            $message = 'Marca restaurada';
+        }
+
+        return redirect()->route('marcas.index')->with('success', $message);
     }
 }
