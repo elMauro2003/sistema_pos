@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\CompraController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\PresentacioneController;
 use App\Http\Controllers\ProductoController;
@@ -31,7 +32,8 @@ Route::resources([
     'marcas' => MarcaController::class,
     'productos' => ProductoController::class,
     'clientes' => ClienteController::class,
-    'proveedores' => ProveedoreController::class
+    'proveedores' => ProveedoreController::class,
+    'compras' => CompraController::class
 ]);
 
 Route::get('/login', function(){

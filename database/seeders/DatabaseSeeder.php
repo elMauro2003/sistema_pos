@@ -6,8 +6,10 @@ namespace Database\Seeders;
 
 use App\Models\Caracteristica;
 use App\Models\Categoria;
+use App\Models\Comprobante;
 use App\Models\Marca;
 use App\Models\Presentacione;
+use App\Models\Producto;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,6 +20,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(DocumentoSeeder::class);
+        $this->call(ComprobanteSeeder::class);
+        $this->call(UserSeeder::class);
+        //$this->call(ProductoSeeder::class);
+
         Caracteristica::create([
             'id' => '1',
             'nombre' => 'Lacteos',
