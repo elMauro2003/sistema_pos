@@ -18,12 +18,9 @@ class CompraController extends Controller
      */
     public function index()
     {
-        $compras = Compra::with('comprobante','proveedore.persona')
-        ->where('estado',1)
-        ->latest()
-        ->get(); 
+        $compras = Compra::with('comprobante', 'proveedore.persona')->where('estado', 1)->latest()->get();
 
-        return view('compra.index',compact('compras'));
+        return view('compra.index', compact('compras'));
     }
 
     /**
@@ -86,11 +83,10 @@ class CompraController extends Controller
 
             DB::commit();
         } catch (Exception $e) {
-           DB::rollBack();
+            DB::rollBack();
         }
 
         return redirect()->route('compras.index')->with('success', 'Compra realizada con exito!');
-
     }
 
     /**
@@ -98,7 +94,7 @@ class CompraController extends Controller
      */
     public function show(Compra $compra)
     {
-        //
+        return view('compra.show', compact('compra'));
     }
 
     /**
@@ -120,8 +116,12 @@ class CompraController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Compra $compra)
+    public function destroy($id)
     {
-        //
+        Compra::where('id', $id)->update([
+            'estado' => 0,
+        ]);
+        return redirect()->route('compras.index')
+        ->with('success', 'Compra eliminada correctamente!');
     }
 }

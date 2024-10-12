@@ -62,29 +62,53 @@
                         @foreach ($compras as $compra)
                             <tr>
                                 <td>
-                                    <p class="fw-semibold mb-1">{{$compra->comprobante->tipo_comprobante}}</p>
-                                    <p class="text-muted mb-0">{{$compra->numero_comprobante}}</p>
+                                    <p class="fw-semibold mb-1">{{ $compra->comprobante->tipo_comprobante }}</p>
+                                    <p class="text-muted mb-0">{{ $compra->numero_comprobante }}</p>
                                 </td>
                                 <td>
-                                    <p class="fw-semibold mb-1">{{ucfirst($compra->proveedore->persona->tipo_persona)}}</p>
-                                    <p class="text-muted mb-0">{{$compra->proveedore->persona->razon_social}}</p>
+                                    <p class="fw-semibold mb-1">{{ ucfirst($compra->proveedore->persona->tipo_persona) }}
+                                    </p>
+                                    <p class="text-muted mb-0">{{ $compra->proveedore->persona->razon_social }}</p>
                                 </td>
                                 <td>
-                                    {{
-                                        \Carbon\Carbon::parse($compra->fecha_hora)->format('d-m-Y') .' | '.
-                                        \Carbon\Carbon::parse($compra->fecha_hora)->format('H:i')
-                                    }}
+                                    {{ \Carbon\Carbon::parse($compra->fecha_hora)->format('d-m-Y') .
+                                        ' | ' .
+                                        \Carbon\Carbon::parse($compra->fecha_hora)->format('H:i') }}
                                 </td>
                                 <td>
-                                    {{$compra->total}}
+                                    {{ $compra->total }}
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <button type="button" class="btn btn-success">Ver</button>
-                                        <button type="button" class="btn btn-danger">Eliminar</button>
-                                      </div>
+                                        <form action="{{ route('compras.show', ['compra' => $compra]) }}" method="get">
+                                            <button type="submit" class="btn btn-success">Ver</button>
+                                        </form>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$compra->id}}">Eliminar</button>
+                                    </div>
                                 </td>
                             </tr>
+                            <!-- Modal de Confirmacion -->
+                            <div class="modal fade" id="confirmModal-{{ $compra->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje de confirmación</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Seguro que deseas eliminar este registro?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <form action="{{ route('compras.destroy', ['compra' => $compra->id]) }}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger">Confirmar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                     </tbody>
                 </table>

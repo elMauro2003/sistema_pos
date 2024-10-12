@@ -53,14 +53,50 @@
             INTERFACE
             -->
                 <div class="sb-sidenav-menu-heading">Modulos</div>
+                
+                <!-- Compras -->
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                    data-bs-target="#collapseCompras" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-store"></i></div>
+                    Compras
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseCompras" aria-labelledby="headingOne"
+                    data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="{{ route('compras.index') }}">Ver</a>
+                        <a class="nav-link" href="{{ route('compras.create') }}">Crear</a>
+                    </nav>
+                </div>
+
+                <!-- Ventas -->
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                    data-bs-target="#collapseVentas" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                    Ventas
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseVentas" aria-labelledby="headingOne"
+                    data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="{{ route('ventas.index') }}">Ver</a>
+                        <a class="nav-link" href="{{ route('ventas.create') }}">Crear</a>
+                    </nav>
+                </div>
+
+                <!-- Categorias -->
                 <a class="nav-link" href="{{ route('categorias.index') }}">
                     <div class="sb-nav-link-icon"><i class="fa fa-tag" aria-hidden="true"></i></div>
                     Categorias
                 </a>
+
+                <!-- Presentaciones -->
                 <a class="nav-link" href="{{ route('categorias.index') }}">
                     <div class="sb-nav-link-icon"><i class="fa fa-archive" aria-hidden="true"></i></div>
                     Presentaciones
                 </a>
+
+                <!-- Marcas -->
                 <a class="nav-link" href="{{ route('marcas.index') }}">
                     <div class="sb-nav-link-icon"><i class="fa fa-bullhorn" aria-hidden="true"></i></div>
                     Marcas
@@ -77,19 +113,11 @@
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-user-group"></i></div>
                     Proveedores
                 </a>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                    data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-store"></i></div>
-                    Compras
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                
+                <a class="nav-link" href="{{ route('proveedores.index') }}">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-user-group"></i></div>
+                    Ventas
                 </a>
-                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                    data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="{{ route('compras.index') }}">Ver</a>
-                        <a class="nav-link" href="{{ route('compras.create') }}">Crear</a>
-                    </nav>
-                </div>
             </div>
         </div>
         <div class="sb-sidenav-footer">
