@@ -17,7 +17,7 @@
             <li class="breadcrumb-item"><a href="{{ route('compras.index') }}">Compra</a></li>
             <li class="breadcrumb-item active">Crear Compra</li>
         </ol>
-        <form action="" method="post">
+        <form action="{{ route('compras.store') }}" method="post">
             @csrf
             <div class="container mt-4">
                 <div class="row gy-4">
@@ -37,6 +37,9 @@
                                                 {{ $producto->codigo . ' ' . $producto->nombre }}</option>
                                         @endforeach
                                     </select>
+                                    @error('producto_id')
+                                        <small class="text-danger">{{ '* ' . $message }}</small>
+                                    @enderror
                                 </div>
                                 <!-- Cantidad -->
                                 <div class="col-md-4 mb-2">
@@ -99,7 +102,8 @@
                                                 <tr>
                                                     <th></th>
                                                     <th colspan="4">Total</th>
-                                                    <th colspan="2"><span id="total">0</span></th>
+                                                    <th colspan="2"><input type="hidden" name="total" value="0" id="inputTotal"><span id="total">0</span></th>
+                                                    
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -108,7 +112,8 @@
 
                                 <!-- Boton para cancelar compra -->
                                 <div class="col-md-12 mb-2">
-                                    <button type="button" id="cancelar" class="btn btn-danger" data-bs-target="#cancelarModal">Cancelar
+                                    <button type="button" id="cancelar" class="btn btn-danger"
+                                        data-bs-target="#cancelarModal">Cancelar
                                         compra</button>
                                 </div>
 
@@ -146,6 +151,9 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    @error('comprobante_id')
+                                        <small class="text-danger">{{ '* ' . $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <!-- Numero de comprobante -->
@@ -153,6 +161,9 @@
                                     <label for="numero_comprobante" class="form-label">Comprobante</label>
                                     <input type="text" name="numero_comprobante" id="numero_comprobante"
                                         class="form-control" required>
+                                    @error('numero_comprobante')
+                                        <small class="text-danger">{{ '* ' . $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <!-- Impuesto -->
@@ -160,6 +171,9 @@
                                     <label for="impuesto" class="form-label">Impuesto</label>
                                     <input type="text" name="impuesto" id="impuesto"
                                         class="form-control border-success" readonly>
+                                    @error('impuesto')
+                                        <small class="text-danger">{{ '* ' . $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <!-- Fecha -->
@@ -167,6 +181,11 @@
                                     <label for="fecha" class="form-label">Fecha</label>
                                     <input type="date" name="fecha" id="fecha"
                                         class="form-control border-success" value="<?php echo date('Y-m-d'); ?>" readonly>
+                                        <?php
+                                        use Carbon\Carbon;
+                                        $fecha_hora = Carbon::now()->toDateTimeString();
+                                        ?>
+                                        <input type="hidden" name="fecha_hora" value="{{$fecha_hora}}">
                                 </div>
 
                                 <!-- Boton guardar compra -->
@@ -260,17 +279,19 @@
             $('#sumas').html(sumas);
             $('#igv').html(igv);
             $('#total').html(total);
+            $('#impuesto').val(impuesto + '%');
+            $('#inputTotal').val(total);
 
             limpiarCampos();
             disableButtons();
 
         }
 
-        function disableButtons(){
-            if (total == 0){
+        function disableButtons() {
+            if (total == 0) {
                 $('#guardar').hide();
                 $('#cancelar').hide();
-            }else{
+            } else {
                 $('#guardar').show();
                 $('#cancelar').show();
             }

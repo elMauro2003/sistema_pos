@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use function PHPSTORM_META\map;
+
 class Compra extends Model
 {
     use HasFactory;
@@ -22,5 +24,14 @@ class Compra extends Model
         ->withTimestamps()
         ->withPivot('cantidad', 'precio_compra', 'precio_venta');
     }
+
+    protected $fillable = [
+        'fecha_hora',
+        'impuesto',
+        'numero_comprobante',
+        'total',
+        'comprobante_id',
+        'proveedore_id'
+    ];
 
 }
