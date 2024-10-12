@@ -8,25 +8,25 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('caracteristicas', function (Blueprint $table) {
+        Schema::create('marcas', function (Blueprint $table) {
             $table->id();
-
-            $table->string('nombre',60);
-            $table->string('descripcion', 255)->nullable();
-            $table->tinyInteger('estado')->default(1);
-
+            $table->foreignId('caracteristica_id')->unique()->constrained('caracteristicas')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('caracteristicas');
+        Schema::dropIfExists('marcas');
     }
 };

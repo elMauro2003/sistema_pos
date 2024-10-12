@@ -8,24 +8,25 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('documentos', function (Blueprint $table) {
+        Schema::create('presentaciones', function (Blueprint $table) {
             $table->id();
-
-            $table->string('tipo_documento', 30);
-            $table->string('numero_documento', 20);
-
+            $table->foreignId('caracteristica_id')->unique()->constrained('caracteristicas')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('documentos');
+        Schema::dropIfExists('presentaciones');
     }
 };

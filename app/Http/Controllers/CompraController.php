@@ -18,7 +18,12 @@ class CompraController extends Controller
      */
     public function index()
     {
-        return view('compra.index');
+        $compras = Compra::with('comprobante','proveedore.persona')
+        ->where('estado',1)
+        ->latest()
+        ->get(); 
+
+        return view('compra.index',compact('compras'));
     }
 
     /**
@@ -81,7 +86,7 @@ class CompraController extends Controller
 
             DB::commit();
         } catch (Exception $e) {
-            DB::rollBack();
+           DB::rollBack();
         }
 
         return redirect()->route('compras.index')->with('success', 'Compra realizada con exito!');

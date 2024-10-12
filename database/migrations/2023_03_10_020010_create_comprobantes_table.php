@@ -8,26 +8,26 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('personas', function (Blueprint $table) {
+        Schema::create('comprobantes', function (Blueprint $table) {
             $table->id();
-
-            $table->string('razon_social',80);
-            $table->string('direccion',80);
-            $table->string('tipo_persona',20);
+            $table->string('tipo_comprobante',50);
             $table->tinyInteger('estado')->default(1);
-            $table->foreignId('documento_id')->unique()->constrained('documentos')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('personas');
+        Schema::dropIfExists('comprobantes');
     }
 };

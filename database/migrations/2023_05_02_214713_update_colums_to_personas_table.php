@@ -11,22 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-
-        // Eliminar llave foranea
+        //Eliminar llave foránea
         Schema::table('personas', function (Blueprint $table) {
-           $table->dropForeign(['documento_id']);
-           $table->dropColumn('documento_id');
+            $table->dropForeign(['documento_id']);
+            $table->dropColumn('documento_id');
         });
 
-        // Crear una nueva llave foranea
+        //Crear una nueva llave foránea
         Schema::table('personas', function (Blueprint $table) {
-           $table->foreignId('documento_id')->after('estado')->constrained('documentos')->onDelete('cascade');
-         });
+            $table->foreignId('documento_id')->after('estado')->constrained('documentos')->onDelete('cascade');
+        });
 
-         // Crear el campo numero_documento
+        //Crear el campo numero_documento
         Schema::table('personas', function (Blueprint $table) {
-            $table->string('numero_documento', 20)->after('documento_id')->constrained('documentos')->onDelete('cascade');
-          });
+            $table->string('numero_documento',20)->after('documento_id');
+        });
     }
 
     /**
@@ -34,20 +33,20 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Eliminar una nueva llave foranea
+        //Eliminar la nueva llave foránea
         Schema::table('personas', function (Blueprint $table) {
-          $table->dropForeign(['documento_id']);
-          $table->dropColumn('documento_id');
+            $table->dropForeign(['documento_id']);
+            $table->dropColumn('documento_id');
         });
 
-        // Crear llave foranea
+        //Crear llave foránea
         Schema::table('personas', function (Blueprint $table) {
             $table->foreignId('documento_id')->after('estado')->unique()->constrained('documentos')->onDelete('cascade');
-         });
- 
-          // Eliminar campo numero_documento
+        });
+
+        //Eliminar el campo numero_documento
         Schema::table('personas', function (Blueprint $table) {
-             $table->dropColumn('numero_documento');
+            $table->dropColumn('numero_documento');
         });
     }
 };

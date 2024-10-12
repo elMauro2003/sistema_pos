@@ -48,17 +48,44 @@
                 Tabla compras
             </div>
             <div class="card-body">
-                <table class="table table-striped text-center" id="datatablesSimple">
+                <table class="table table-striped" id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Estado</th>
+                            <th>Comprobante</th>
+                            <th>Proveedor</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        @foreach ($compras as $compra)
+                            <tr>
+                                <td>
+                                    <p class="fw-semibold mb-1">{{$compra->comprobante->tipo_comprobante}}</p>
+                                    <p class="text-muted mb-0">{{$compra->numero_comprobante}}</p>
+                                </td>
+                                <td>
+                                    <p class="fw-semibold mb-1">{{ucfirst($compra->proveedore->persona->tipo_persona)}}</p>
+                                    <p class="text-muted mb-0">{{$compra->proveedore->persona->razon_social}}</p>
+                                </td>
+                                <td>
+                                    {{
+                                        \Carbon\Carbon::parse($compra->fecha_hora)->format('d-m-Y') .' | '.
+                                        \Carbon\Carbon::parse($compra->fecha_hora)->format('H:i')
+                                    }}
+                                </td>
+                                <td>
+                                    {{$compra->total}}
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                        <button type="button" class="btn btn-success">Ver</button>
+                                        <button type="button" class="btn btn-danger">Eliminar</button>
+                                      </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

@@ -8,13 +8,16 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('marcas', function (Blueprint $table) {
+        Schema::create('documentos', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('caracteristica_id')->constrained('caracteristicas')->onDelete('cascade');
+            $table->string('tipo_documento',30);
+            $table->string('numero_documento',20);
 
             $table->timestamps();
         });
@@ -22,9 +25,11 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('marcas');
+        Schema::dropIfExists('documentos');
     }
 };

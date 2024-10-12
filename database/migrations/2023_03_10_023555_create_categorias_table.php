@@ -8,22 +8,24 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('categorias', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('caracteristica_id')->unique()->constrained('caracteristicas')->onDelete('cascade');
-
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('categorias');
     }
