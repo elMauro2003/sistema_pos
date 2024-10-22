@@ -17,12 +17,18 @@ class StoreVentaRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'fecha_hora' => 'required',
+            'impuesto' => 'required',
+            'numero_comprobante' => 'required|unique:ventas,numero_comprobante|max:255',
+            'total' => 'required|numeric',
+            'cliente_id' => 'required|exists:clientes,id',
+            'user_id' => 'required|exists:users,id',
+            'comprobante_id' => 'required|exists:comprobantes,id'
         ];
     }
 }

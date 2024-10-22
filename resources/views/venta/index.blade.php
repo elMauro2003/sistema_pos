@@ -1,11 +1,9 @@
-@extends('layouts.app')
+@extends('template')
 
 @section('title', 'ventas')
 
-@push('css-datatable')
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
-@endpush
 @push('css')
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .row-not-space {
@@ -16,7 +14,26 @@
 
 @section('content')
 
-    @include('layouts.partials.alert')
+    @if (session('success'))
+        <script>
+            let message = "{{ session('success') }}"
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: message
+            });
+        </script>
+    @endif
 
     <div class="container-fluid px-4">
         <h1 class="mt-4 text-center">Ventas</h1>
@@ -51,53 +68,48 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($ventas as $item)
+                        @foreach ($ventas as $venta)
                             <tr>
                                 <td>
-                                    <p class="fw-semibold mb-1">{{ $item->comprobante->tipo_comprobante }}</p>
-                                    <p class="text-muted mb-0">{{ $item->numero_comprobante }}</p>
+                                    <p class="fw-semibold mb-1">{{ $venta->comprobante->tipo_comprobante }}</p>
+                                    <p class="text-muted mb-0">{{ $venta->numero_comprobante }}</p>
                                 </td>
                                 <td>
-                                    <p class="fw-semibold mb-1">{{ ucfirst($item->cliente->persona->tipo_persona) }}</p>
-                                    <p class="text-muted mb-0">{{ $item->cliente->persona->razon_social }}</p>
+                                    <p class="fw-semibold mb-1">{{ ucfirst($venta->cliente->persona->tipo_persona) }}</p>
+                                    <p class="text-muted mb-0">{{ $venta->cliente->persona->razon_social }}</p>
                                 </td>
                                 <td>
                                     <div class="row-not-space">
                                         <p class="fw-semibold mb-1"><span class="m-1"><i
-                                                    class="fa-solid fa-calendar-days"></i></span>{{ \Carbon\Carbon::parse($item->fecha_hora)->format('d-m-Y') }}
+                                                    class="fa-solid fa-calendar-days"></i></span>{{ \Carbon\Carbon::parse($venta->fecha_hora)->format('d-m-Y') }}
                                         </p>
                                         <p class="fw-semibold mb-0"><span class="m-1"><i
-                                                    class="fa-solid fa-clock"></i></span>{{ \Carbon\Carbon::parse($item->fecha_hora)->format('H:i') }}
+                                                    class="fa-solid fa-clock"></i></span>{{ \Carbon\Carbon::parse($venta->fecha_hora)->format('H:i') }}
                                         </p>
                                     </div>
                                 </td>
                                 <td>
-                                    {{ $item->user->name }}
+                                    {{ $venta->user->name }}
                                 </td>
                                 <td>
-                                    {{ $item->total }}
+                                    {{ $venta->total }}
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                        <form action="{{ route('ventas.show', ['venta' => $venta]) }}" method="get">
+                                            <button type="submit" class="btn btn-success">
+                                                Ver
+                                            </button>
+                                        </form>
 
-                                        @can('mostrar-venta')
-                                            <form action="{{ route('ventas.show', ['venta' => $item]) }}" method="get">
-                                                <button type="submit" class="btn btn-success">
-                                                    Ver
-                                                </button>
-                                            </form>
-                                        @endcan
-
-                                        @can('eliminar-venta')
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
-                                        @endcan
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmModal-{{ $venta->id }}">Eliminar</button>
                                     </div>
                                 </td>
                             </tr>
 
                             <!-- Modal de confirmación-->
-                            <div class="modal fade" id="confirmModal-{{ $item->id }}" tabindex="-1"
+                            <div class="modal fade" id="confirmModal-{{ $venta->id }}" tabindex="-1"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -112,7 +124,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cerrar</button>
-                                            <form action="{{ route('ventas.destroy', ['venta' => $item->id]) }}"
+                                            <form action="{{ route('ventas.destroy', ['venta' => $venta->id]) }}"
                                                 method="post">
                                                 @method('DELETE')
                                                 @csrf

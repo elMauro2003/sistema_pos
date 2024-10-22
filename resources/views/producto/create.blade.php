@@ -23,7 +23,7 @@
         </ol>
 
         <div class="container w-100 border border-3 border-primary rounded p-4 mt-3">
-            <form action="{{ route('productos.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('ventas.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row g-3">
                     <div class="col-md-6">

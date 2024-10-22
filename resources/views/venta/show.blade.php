@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('template')
 
 @section('title', 'Ver venta')
 
@@ -168,7 +168,6 @@
 
 
         </div>
-
 
         <!---Tabla--->
         <div class="card mb-2">

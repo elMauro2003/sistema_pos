@@ -1,4 +1,4 @@
-@extends()@extends('layouts.app')
+@extends('template')
 
 @section('title', 'Realizar venta')
 
@@ -209,7 +209,8 @@
                             </div>
 
                             <!----User--->
-                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                            <input type="hidden" name="user_id" value="1">
+                            
 
                             <!--Botones--->
                             <div class="col-12 text-center">
