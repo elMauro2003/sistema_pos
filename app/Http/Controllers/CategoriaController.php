@@ -15,6 +15,15 @@ use Spatie\LaravelIgnition\Http\Requests\UpdateConfigRequest;
 
 class CategoriaController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:ver-categoria|crear-categoria|editar-categoria|eliminar-categoria', ['only' => ['index']]);
+        $this->middleware('permission:crear-categoria', ['only' => ['create', 'store']]);
+        $this->middleware('permission:editar-categoria', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:eliminar-categoria', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      */
