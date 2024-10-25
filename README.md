@@ -64,7 +64,7 @@ php artisan serve
 ### NOTE
 To access the system the test credentials are:
 
-**User: **
+**User:**
 ```
 Administrador
 ```
