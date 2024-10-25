@@ -60,12 +60,19 @@ php artisan db:seed
 ```bash
 php artisan serve
 ```
-**NOTE:**
-To access the system, the test credentials are:
-```bash
-User: Administrador
-Password: 12345678
+
+### NOTE
+To access the system the test credentials are:
+
+**User: **
 ```
+Administrador
+```
+**Password:**
+```
+12345678
+```
+
 ## Support me
 If this project has been useful to you, you can leave me a star, and if you have something to contribute, do not hesitate to leave your pull request.
 
