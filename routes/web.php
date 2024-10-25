@@ -9,6 +9,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\PresentacioneController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProveedoreController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -38,7 +39,9 @@ Route::resources([
     'compras' => CompraController::class,
     'ventas' => VentaController::class,
     'users' => UserController::class,
-    'roles' => RoleController::class
+    'roles' => RoleController::class,
+    'profile' => ProfileController::class
+
 ]);
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');

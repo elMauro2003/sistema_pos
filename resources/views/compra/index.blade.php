@@ -83,24 +83,29 @@
                                         <form action="{{ route('compras.show', ['compra' => $compra]) }}" method="get">
                                             <button type="submit" class="btn btn-success">Ver</button>
                                         </form>
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$compra->id}}">Eliminar</button>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmModal-{{ $compra->id }}">Eliminar</button>
                                     </div>
                                 </td>
                             </tr>
                             <!-- Modal de Confirmacion -->
-                            <div class="modal fade" id="confirmModal-{{ $compra->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="confirmModal-{{ $compra->id }}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje de confirmación</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             ¿Seguro que deseas eliminar este registro?
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <form action="{{ route('compras.destroy', ['compra' => $compra->id]) }}" method="post">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancelar</button>
+                                            <form action="{{ route('compras.destroy', ['compra' => $compra->id]) }}"
+                                                method="post">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button type="submit" class="btn btn-danger">Confirmar</button>
